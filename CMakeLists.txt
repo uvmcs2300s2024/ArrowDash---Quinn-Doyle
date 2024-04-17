@@ -28,34 +28,34 @@ include(FetchContent)
 
 # Fetch GLFW
 FetchContent_Declare(
-    glfw
-    URL https://github.com/glfw/glfw/archive/refs/tags/${GLFW_VERSION}.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        glfw
+        URL https://github.com/glfw/glfw/archive/refs/tags/${GLFW_VERSION}.tar.gz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 FetchContent_MakeAvailable(glfw)
 
 # Fetch GLM
 FetchContent_Declare(
-    glm
-    URL https://github.com/g-truc/glm/archive/refs/tags/${GLM_VERSION}.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        glm
+        URL https://github.com/g-truc/glm/archive/refs/tags/${GLM_VERSION}.tar.gz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 FetchContent_MakeAvailable(glm)
 
 # Fetch Freetype
 FetchContent_Declare(
-    freetype
-    URL https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.xz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        freetype
+        URL https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.xz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 FetchContent_MakeAvailable(freetype)
 
 # Fetch GLAD
 FetchContent_Declare(
-    glad
-    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-    GIT_TAG c
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        glad
+        GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+        GIT_TAG c
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 FetchContent_Populate(glad)
 
@@ -86,10 +86,10 @@ file(GLOB VENDORS_SOURCES ${glad_SOURCE_DIR}/src/glad.c)
 file(GLOB_RECURSE PROJECT_HEADERS ${B_TARGET}/*.h)
 file(GLOB_RECURSE PROJECT_SOURCES ${B_TARGET}/*.cpp)
 file(GLOB PROJECT_CONFIGS CMakeLists.txt
-                          Readme.md
-                         .gitattributes
-                         .gitignore
-                         .gitmodules)
+        Readme.md
+        .gitattributes
+        .gitignore
+        .gitmodules)
 
 # Add globs to sources
 source_group("Headers" FILES ${PROJECT_HEADERS})
@@ -98,12 +98,15 @@ source_group("Vendors" FILES ${VENDORS_SOURCES})
 
 # Important GLFW definitions
 add_definitions(-DGLFW_INCLUDE_NONE
-                -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+        -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 
 ## ~ BUILD PROJECT ~
 # Create executable
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
-                               ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
-                               ${VENDORS_SOURCES})
+        ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
+        ${VENDORS_SOURCES}
+        src/shapes/arrow.h
+        src/shapes/arrow.cpp
+)
 # Include libraries
 target_link_libraries(${PROJECT_NAME} glfw glm freetype)

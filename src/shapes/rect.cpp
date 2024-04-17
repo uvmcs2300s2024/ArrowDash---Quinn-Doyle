@@ -29,8 +29,11 @@ void Rect::draw() const {
 
 void Rect::initVectors() {
     this->vertices.insert(vertices.end(), {
-            // TODO: Add other three corners here
-            0.5f, -0.5f  // x, y of bottom right corner
+            // DONE: Add other three corners here
+            -0.5f, 0.5f,   // Top left
+            0.5f, 0.5f,   // Top right
+            -0.5f, -0.5f,  // Bottom left
+            0.5f, -0.5f   // Bottom right
     });
 
     this->indices.insert(indices.end(), {
@@ -40,7 +43,7 @@ void Rect::initVectors() {
 }
 // Overridden Getters from Shape
 float Rect::getLeft() const        { return pos.x - (size.x / 2); }
-// TODO: Implement getRight, getTop, and getBottom
-float Rect::getRight() const       { return 0.0f; /* placeholder for compilation */ }
-float Rect::getTop() const         { return 0.0f; /* placeholder for compilation */ }
-float Rect::getBottom() const      { return 0.0f; /* placeholder for compilation */ }
+// DONE: Implement getRight, getTop, and getBottom
+float Rect::getRight() const       { return pos.x + (size.x /2); }
+float Rect::getTop() const         { return pos.y + (size.y /2); }
+float Rect::getBottom() const      { return pos.y - (size.y /2); }

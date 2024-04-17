@@ -9,7 +9,9 @@
 #include "shader/shaderManager.h"
 #include "font/fontRenderer.h"
 #include "shapes/rect.h"
+#include "shapes/triangle.h"
 #include "shapes/shape.h"
+#include "shapes/arrow.h"
 
 using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
@@ -19,6 +21,13 @@ using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm
  */
 class Engine {
 private:
+    color red = color{.99, 0, .450, 1};
+    color blue = color{0, .300, .604, 1};
+    color yellow = color{.904, .910, 0, 1};
+    color green = color{0,1,0,1};
+    color white = color{1,1,1,1};
+    int totalScore = 0;
+    float speed = -1.5;
     /// @brief The actual GLFW window.
     GLFWwindow* window{};
 
@@ -37,9 +46,30 @@ private:
     /// @details Initialized in initShaders()
     unique_ptr<FontRenderer> fontRenderer;
 
-    // Shapes
-    unique_ptr<Shape> spawnButton;
-    vector<unique_ptr<Shape>> confetti;
+    // Shapes used in engine
+    unique_ptr<Shape> divCenter;
+    unique_ptr<Shape> divLeft;
+    unique_ptr<Shape> divRight;
+
+    vector<unique_ptr<Arrow>> arrows;
+    unique_ptr<Arrow> arrow;
+    unique_ptr<Rect> blinkS;
+
+    vector<int> arrowNums;
+
+    unique_ptr<Arrow> arrowMarkerQ1;
+    unique_ptr<Arrow> arrowBaseClickQ1;
+
+    unique_ptr<Arrow> arrowMarkerQ2;
+    unique_ptr<Arrow> arrowBaseClickQ2;
+
+    unique_ptr<Arrow> arrowMarkerQ3;
+    unique_ptr<Arrow> arrowBaseClickQ3;
+
+    unique_ptr<Arrow> arrowMarkerQ4;
+    unique_ptr<Arrow> arrowBaseClickQ4;
+
+
 
     // Shaders
     Shader shapeShader;
@@ -47,6 +77,7 @@ private:
 
     double MouseX, MouseY;
     bool mousePressedLastFrame = false;
+    bool arrowClickedLastFrame = false;
 
     /// @note Call glCheckError() after every OpenGL call to check for errors.
     GLenum glCheckError_(const char *file, int line);
@@ -72,8 +103,9 @@ public:
     /// @brief Initializes the shapes to be rendered.
     void initShapes();
 
-    /// @brief Pushes back a new colored rectangle to the confetti vector.
-    void spawnConfetti();
+    /// @brief Pushes back a new colored arrow to the arrows vector.
+    void spawnArrow();
+    void addPoint(string key);
 
     /// @brief Processes input from the user.
     /// @details (e.g. keyboard input, mouse input, etc.)

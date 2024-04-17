@@ -52,11 +52,15 @@ void Shape::setUniforms() const {
 }
 
 bool Shape::isOverlapping(const vec2 &point) const {
-    // TODO: Implement
+    // DONE: Implement
+    if (point[0] < getRight() && point[0] > getLeft() &&
+        point[1] < getTop() && point[1] > getBottom()) {
+        return true;
+    }
     // A shape is overlapping a point if the point is within the shape's bounding box.
     // Hint: Even though getLeft, getRight, getTop, and getBottom aren't implemented
     //       in this class, you can still call them from here.
-    return false; // Placeholder for compilation
+    return false;
 }
 
 // Setters
